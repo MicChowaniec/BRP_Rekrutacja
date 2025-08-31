@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿using NUnit.Framework;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class GUIController : MonoBehaviour
 {
@@ -20,14 +24,22 @@ public class GUIController : MonoBehaviour
     [SerializeField] private GameObject InGameGuiObject;
     [SerializeField] private PopUpView PopUp;
     [SerializeField] private PopUpScreenBlocker ScreenBlocker;
-
+    [SerializeField] private List<GameObject> StaticButtons = new();
     private void Start()
     {
-        if (ScreenBlocker) ScreenBlocker.InitBlocker();
+      
+            if (ScreenBlocker) ScreenBlocker.InitBlocker();
     }
 
     private void ActiveInGameGUI(bool active)
     {
+        foreach (var sb in StaticButtons)
+        {
+          
+                sb.SetActive(active);
+            
+        }
+        EventSystem.current.SetSelectedGameObject(FindFirstObjectByType<Selectable>().gameObject);
         InGameGuiObject.SetActive(active);
     }
 

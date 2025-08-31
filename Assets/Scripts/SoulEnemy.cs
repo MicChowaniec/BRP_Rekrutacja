@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
-
+public enum Weakness
+{
+    sword,
+    bow
+}
 public class SoulEnemy : MonoBehaviour, IEnemy
 {
     [SerializeField] private GameObject InteractionPanelObject;
@@ -8,8 +12,16 @@ public class SoulEnemy : MonoBehaviour, IEnemy
 
     private SpawnPoint _enemyPosition;
 
+    private Weakness Weakness;
+    
+
+
+
     public void SetupEnemy(Sprite sprite, SpawnPoint spawnPoint)
     {
+       
+        //It should be probably predefined, but at this point I leave it as it is.
+        Weakness = (Weakness)Random.Range(0,2);
         EnemySpriteRenderer.sprite = sprite;
         _enemyPosition = spawnPoint;
         gameObject.SetActive(true);
@@ -43,14 +55,25 @@ public class SoulEnemy : MonoBehaviour, IEnemy
 
     private void UseBow()
     {
-        // USE BOW
+        int reward = 10;
+        if(Weakness==Weakness.bow)
+        {
+            reward += 5;
+        }
         GameEvents.EnemyKilled?.Invoke(this);
+        GameEvents.PointsUpdate?.Invoke(reward);
     }
 
     private void UseSword()
     {
+        int reward = 10;
+        if (Weakness == Weakness.sword)
+        {
+            reward += 5;
+        }
         GameEvents.EnemyKilled?.Invoke(this);
-        // USE SWORD
+        GameEvents.PointsUpdate?.Invoke(reward);
+
     }
 
     #region OnClicks

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class InventoryView : UiView
@@ -29,6 +30,10 @@ public class InventoryView : UiView
         {
             SoulInformation newSoul = Instantiate(SoulItemPlaceHolder.gameObject, _contentParent).GetComponent<SoulInformation>();
             newSoul.SetSoulItem(SoulController.Instance.Souls[i], () => SoulItem_OnClick(newSoul));
+            if(j==0)
+            {
+                EventSystem.current.SetSelectedGameObject(newSoul.gameObject);
+            }
         }
 
         SoulItemPlaceHolder.gameObject.SetActive(false);
@@ -102,18 +107,27 @@ public class InventoryView : UiView
         UseButton.onClick.RemoveAllListeners();
         if (active)
         {
-            bool isInCorrectLocalization = GameControlller.Instance.IsCurrentLocalization(_currentSoulInformation.soulItem.UsableInLocalization);
-            PopUpInformation popUpInfo = new PopUpInformation
+            
+            bool isUsableInThisLocalization = _currentSoulInformation.soulItem.UsableInLocalization==GameControlller.Instance.CurrentGameLocalization;
+            if (!isUsableInThisLocalization)
             {
-                DisableOnConfirm = isInCorrectLocalization,
-                UseOneButton = false,
-                Header = "USE ITEM",
-                Message = "Are you sure you want to USE: " + _currentSoulInformation.soulItem.Name + " ?",
-                Confirm_OnClick = () => UseCurrentSoul(isInCorrectLocalization)
-            };
-            UseButton.onClick.AddListener(() => GUIController.Instance.ShowPopUpMessage(popUpInfo));
+                UseButton.GetComponent<Button>().interactable = false;
+            }
+            else
+            {
+                UseButton.GetComponent<Button>().interactable = true;
+                PopUpInformation popUpInfo = new PopUpInformation
+                {
+                    DisableOnConfirm = isUsableInThisLocalization,
+                    UseOneButton = false,
+                    Header = "USE ITEM",
+                    Message = "Are you sure you want to USE: " + _currentSoulInformation.soulItem.Name + " ?",
+                    Confirm_OnClick = () => UseCurrentSoul(isUsableInThisLocalization)
+                };
+                UseButton.onClick.AddListener(() => GUIController.Instance.ShowPopUpMessage(popUpInfo));
+            }
+            UseButton.gameObject.SetActive(active);
         }
-        UseButton.gameObject.SetActive(active);
     }
 
     private void SetupDestroyButton(bool active)

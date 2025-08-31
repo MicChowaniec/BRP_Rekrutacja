@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class PopUpView : UiView
@@ -12,6 +13,7 @@ public class PopUpView : UiView
     public override void Awake()
     {
         GetBackButton().onClick.AddListener(() => DestroyView_OnClick(this));
+  
     }
 
     private void OnEnable()

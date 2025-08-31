@@ -4,10 +4,8 @@ using UnityEngine.UI;
 
 public class UiView : MonoBehaviour
 {
-
-    [Header("UI VIEW elements")] [SerializeField]
-    private bool UnpauseOnClose = false;
-
+    [Header("UI VIEW elements")]
+    [SerializeField] private bool UnpauseOnClose = false;
     [SerializeField] private bool CloseOnNewView = true;
     [SerializeField] private Button BackButon;
 
@@ -15,24 +13,33 @@ public class UiView : MonoBehaviour
 
     public virtual void Awake()
     {
-        BackButon.onClick.AddListener(() => DisableView_OnClick(this));
+        if (BackButon != null)
+        {
+            BackButon.onClick.AddListener(() => DisableView_OnClick(this));
+        }
+        else
+        {
+            Debug.LogWarning($"[UiView] BackButon is NOT assigned in {gameObject.name}");
+        }
     }
 
     public void ActiveView_OnClick(UiView viewToActive)
     {
+        if (viewToActive == null) return;
+
         viewToActive.SetParentView(this);
         viewToActive.ActiveView();
-        this.ActiveView(!CloseOnNewView);
+        ActiveView(!CloseOnNewView);
     }
 
     private void DisableView_OnClick(UiView viewToDisable)
     {
-        viewToDisable.DisableView();
+        viewToDisable?.DisableView();
     }
 
     public void DestroyView_OnClick(UiView viewToDisable)
     {
-        viewToDisable.DestroyView();
+        viewToDisable?.DestroyView();
     }
 
     public void SetParentView(UiView parentView)
@@ -42,41 +49,44 @@ public class UiView : MonoBehaviour
 
     public void ActiveView(bool active)
     {
-        this.gameObject.SetActive(active);
+        gameObject.SetActive(active);
     }
 
     public void ActiveView(Action onBackButtonAction = null)
     {
-        if (onBackButtonAction != null) BackButon.onClick.AddListener(() => onBackButtonAction());
+        if (onBackButtonAction != null && BackButon != null)
+        {
+            BackButon.onClick.AddListener(() => onBackButtonAction());
+        }
 
-        if (!gameObject.activeSelf) this.ActiveView(true);
+        if (!gameObject.activeSelf)
+        {
+            ActiveView(true);
+        }
     }
 
     public void DisableView()
     {
-        if (_parentView != null)
-        {
-            _parentView.ActiveView();
-        }
-        
-        if (UnpauseOnClose) GameControlller.Instance.IsPaused = false;
+        _parentView?.ActiveView();
 
-        this.ActiveView(false);
+        if (UnpauseOnClose && GameControlller.Instance != null)
+        {
+            GameControlller.Instance.IsPaused = false;
+        }
+
+        ActiveView(false);
     }
 
     public void DestroyView()
     {
-        if (_parentView != null)
-        {
-            _parentView.ActiveView();
-        }
-
-        Destroy(this.gameObject);
+        _parentView?.ActiveView();
+        Destroy(gameObject);
     }
 
     public void DisableBackButton()
     {
-        BackButon.gameObject.SetActive(false);
+        if (BackButon != null)
+            BackButon.gameObject.SetActive(false);
     }
 
     public Button GetBackButton()
