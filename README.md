@@ -3,3 +3,4 @@ Zadanie wykonane.
 -Zmieniłem kolory w Selected dla niektórych obiektów dla lepszej widczności podświetlonych elementów. 
 -W przeciwieństwie do grania myszą, nie da się walczyć jednocześnie z kilkoma przeciwnikami.
 -Wychodzenie z ekranu poprzez wciśnięcie przycisku X dla ekwipunku, lub resume dla options.
+-Build w folderze o tytule Build z datą.
