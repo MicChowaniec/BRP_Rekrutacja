@@ -1,4 +1,4 @@
-Zadanie wykonane.
+Zadanie wykonane. \n
 -Kontrola GamePadem: Lewy Joystick do nawigacji + SouthButton dla klikania przycisków.
 -Zmieniłem kolory w Selected dla niektórych obiektów dla lepszej widczności podświetlonych elementów. W niektórych miejscach wskazanie myszą i zaznaczenie ma ten sam efekt/kolor, co może być mylące, dlatego zalecam używanie jednego rodzaju kontrolera w tej wersji gry.
 -W przeciwieństwie do grania myszą, przy grze padem nie da się walczyć jednocześnie z kilkoma przeciwnikami.
