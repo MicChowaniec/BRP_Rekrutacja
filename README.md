@@ -1,6 +1,5 @@
-Zadanie rekrutacyjne dla Black Rose Projects
-
-Dokładne instrukcje zadania dostępne na UI sceny `PlayScene`
-
-Po wykonaniu zadania odeślij pliki źródłowe projektu na biuro@blackroseprojects.com - w dowolnej formie, najlepiej jako repozytorium github.
-Upewnij się że poprawnie uzupełnisz informacje w panelu `Credits` w projekcie, oraz że projekt da się kompilowac i nie generuje błędów.
+Zadanie wykonane.
+-Kontrola GamePadem: Lewy Joystick do nawigacji + SouthButton dla klikania przycisków.
+-Zmieniłem kolory w Selected dla niektórych obiektów dla lepszej widczności podświetlonych elementów. 
+-W przeciwieństwie do grania myszą, nie da się walczyć jednocześnie z kilkoma przeciwnikami.
+-Wychodzenie z ekranu poprzez wciśnięcie przycisku X dla ekwipunku, lub resume dla options.
